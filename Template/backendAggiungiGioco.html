@@ -1,0 +1,101 @@
+<#if id != 0 && utente??>
+	<#if utente.getRuolo() == 2 || utente.getRuolo() == 3>
+	    <#include "headerGest.html">
+	<#else>
+	    <#include "header.html">
+	</#if>
+<#else>
+	<#include "header.html">
+</#if>
+	<!--  Inizio Pannello Aggiungi Gioco -->
+	<div class="container-fluid d-block mt-5">
+		<h2 class="text-white text-center mt-5 mb-5">Aggiungi Gioco</h2>
+		<h5 class="text-white text-center mt-5 mb-5">
+			<p> In questa pagina si può aggiungere un nuovo gioco alla piattaforma. </p>			
+			<p><i>Assicurati di aver riempito ogni campo.</i></p>
+			<hr>
+		</h5>
+		<h5 class="bg-secondary text-white text-center mt-5 mb-5">
+		<p><b>**IMPORTANTE PRIMA DELL'AGGIUNTA DEL GIOCO:</b></p>
+			<p>SE si vuole avere la possibilita' di aggiungere esperienza e/o trofei, bisogna creare una variabile in JS</p>
+			<p>"var nomevariabile = new checkInfo();"  che poi verra' usata dal metodo che invia le informazioni al</p>
+			<p>sistema cosi' da poter memorizzare esperienza e trofei.</p>
+			<p>Quando vogliamo che all'utente venga assegnata una determinata quantita' di punti esperienza, dobbiamo </p>
+			<p>invocare la variabile di prima e decidere se dare una delle seguenti quantita' di punti esperienza:
+			<p><b>easy:</b> 5 punti; <b>medium:</b> 15 punti; <b>hard:</b> 30 punti; <b>vhard:</b> 60 punti.</p>
+			<p>Dopodiche' si dovrà chiamare uno dei due metodi JS presenti in DettaglioGioco.html:</p>
+			<p>"nomevariabile.newExp("easy")" per accreditare i punti esperienza, "easy" all'interno puo' essere cambiato</p>
+			<p>con un'altra delle opzioni scritte sopra</p>
+			<p>"nomevariabile.trofeoAcquisizione("Titolo ESATTO del trofeo!")" per accreditare un trofeo specifico da creare</p>
+			<p>o creato nel menu "backendGestioneTrofeo". Come argomento di questo metodo bisogna scrivere il</p>
+			<p><b><u>TITOLO ESATTO</u></b> del trofeo, altrimenti il sistema non riuscira' ad individuarla.</p>
+		</h5>
+			<div class="bg-dark pt-5 pb-5">
+				<!--  Lista di campi da riempire -->				
+			        <div>		
+			          	<form class="needs-validation" novalidate="" method="post" role="form" id="uploadForm" enctype="multipart/form-data">
+		            		<div class="row">
+		              			<div class="col-md-8 offset-md-2 mb-3">
+		                			<label for="titolo">Titolo</label>
+		               				<input class="form-control" id="titolo" name="titolo" placeholder="titolo" required="" type="text">
+		               				<div class="invalid-feedback">Inserisci un titolo</div>
+		              			</div>
+		              		</div>
+		              		<br>
+		              		<div class="row">
+		              			<div class="col-md-8 offset-md-2 mb-3">
+		                			<label for="creatore">Creatore</label>
+		                			<input class="form-control" id="creatore" name="creatore" placeholder="creatore" required="" type="text">
+		                			<div class="invalid-feedback">Nome del creatore</div>
+		              			</div>
+		            		</div>
+		            		<br>
+		            		<div class="row">
+		              			<div class="col-md-8 offset-md-2 mb-3">
+		                			<label for="descrizione">Descrizione</label>
+		                			<textarea class="form-control" rows="4" cols="50" form="uploadForm" id="descrizione" name="descrizione" placeholder="descrizione" ></textarea>
+		              			</div>
+		            		</div>
+							<br>
+		            		<div class="row">
+		            			
+		              			
+		              			<div class="input-group col-md-8 offset-md-2 mb-3">
+									  <div class="input-group-prepend w-25">
+									    	<span class="input-group-text w-100">Carica File HTML</span>
+									  </div>
+									  <div class="custom-file">
+									    	<input type="file" class="custom-file-input" id="filename_1" name="filename_1" size="50">
+									    	<label class="custom-file-label" for="inputGroupFile01"></label>
+									  </div>
+								</div>
+		              			
+		              			
+		            		</div>
+		            		<div class="row">
+		            			
+		              			
+		              			<div class="input-group col-md-8 offset-md-2 mb-3">
+									  <div class="input-group-prepend w-25">
+									    	<span class="input-group-text w-100">Carica Thumbnail (200x200)</span>
+									  </div>
+									  <div class="custom-file">
+									    	<input type="file" class="custom-file-input" id="filename_2" name="filename_2" size="50">
+									    	<label class="custom-file-label" for="inputGroupFile01"></label>
+									  </div>
+								</div>
+		              			
+		              			
+		            		</div>
+							<br>
+		            		
+		            		<button type="submit" class="btn btn-primary w-100 mb-1"><b>Invia gioco</b></button>
+		            	</form>
+					</div>
+
+				<a class="btn btn-danger w-25 mt-5 d-block mx-auto" name="value" value="back" href="backendPannello"> <b>Torna al pannello</b> </a>
+			</div>
+		</h5>
+	</div>
+	<!--  Fine Pannello -->
+<#include "footer.html">

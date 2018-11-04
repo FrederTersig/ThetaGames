@@ -1,0 +1,165 @@
+<#if id != 0 && utente??>
+	<#if utente.getRuolo() == 2 || utente.getRuolo() == 3>
+	    <#include "headerGest.html">
+	<#else>
+	    <#include "header.html">
+	</#if>
+<#else>
+	<#include "header.html">
+</#if>
+		<div class="container-fluid">
+			<div id="primaFascia" class="container-fluid row"> <!-- Container per prima fascia -->
+						<div class="col-2">
+							<#if id != 0 && utente??>
+									<div id="logQuad" class="position-relative  mx-auto mt-4 border border-warning bg-dark">
+										<div class="mx-auto mt-4 row text-white">
+											<div class="col-6 my-3">
+												<#if utente.getUsername() ??>
+													<b>${utente.getUsername()}</b>
+												</#if>
+											</div>
+											<div class="col-6 my-3 text-right">
+												<#if utente.getLivelloAttuale() ??>
+													<b>Livello: ${utente.getLivelloAttuale()}</b>
+												</#if>
+											</div>						
+											<div class="col-12 my-4">
+												<#if utente.getTotaleEsperienza() ?? && utente.getEsperienzaCap() ??>
+													<b>Esperienza: ${utente.getTotaleEsperienza()} / ${utente.getEsperienzaCap()}</b>
+												</#if>
+											</div>
+											
+											<a href="profilo" class="btn btn-primary w-100 col-12 my-4" name="value" value="profilo"><b>Visita Profilo</b></a>
+											<form method="post" role="form" class="col-12">
+												<button type="submit" class="btn btn-primary w-100" name="value" value="logout"><b>Logout</b></button>
+											</form>
+										</div>
+									</div>	
+							<#else>
+					<!-- Per utente non connesso -->
+						<!-- Quadro Login/Registrazione -->
+								<div id="logQuad" class="position-relative  mx-auto mt-4 border border-warning bg-dark">
+									<div class="mx-auto mt-1">
+										<form method="post" role="form">
+											  <div class="form-group">
+											    <label for="exampleInputEmail1" class="text-white"><b>Email address</b></label>
+											    <input name="email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+											  </div>
+											  <div class="form-group">
+											    <label for="exampleInputPassword1" class="text-white"><b>Password</b></label>
+											    <input name="password" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+											  </div>
+											  
+											  <button type="submit" class="btn btn-primary w-100" name="value" value="login"><b>Login</b></button>
+											  <!--  SI APRE MODAL SE NON CI SI CONNETTE...!! -->
+										</form>
+										<form method="post" role="form">
+											<hr class="bg-warning">
+											<small id="regHelp" class="form-text text-warning my-auto"><b>Registrati, è gratis!!</b></small>
+											<button type="submit" class="btn btn-primary w-100 mt-3" name="value" value="signin"><b>Registrati</b></button>
+										</form>
+									</div>
+								</div>
+							</#if>
+						</div><!-- Fine Quadro Login/Registrazione -->
+						<div class="col-9 offset-1">
+							<#if id != 0 && utente??> <!--  si è connessi -->
+								<div id="mexBenTornato" class="position-relative mt-4 border border-warning bg-dark">
+									<h1 class="text-white text-center my-5 mx-5"> Bentornato, <#if utente.getUsername() ??><b>${utente.getUsername()}!!</b></#if></h1>
+									<div class="row">
+										<div class="col-12">
+												<form method="post" role="form">
+													<button type="submit" class="btn btn-primary w-100 my-5" name="value" value="listaCompleta" id="complete"><b>Lista dei giochi in ThetaGames!</b></button>
+												</form>
+										</div>
+									</div>
+								</div>
+							<#else>
+								<div id="mexBenvenuto" class="position-relative  mx-auto mt-4 border border-warning bg-dark">
+								<h1 class="text-white text-center my-5 mx-5"><p>Benvenuto nella piattaforma di gioco</p>
+								<p>ThetaGames!</p></h1>
+									<h4 class="text-white text-center my-5 mx-5">
+										<p>Registrati per provare i nostri giochi e usa la barra di ricerca per trovare quello
+										che piu ti affascina! In questa piattaforma potrai trovare alcuni giochi che ti daranno
+										la possibilita' di prendere punti esperienza e/o la possibilita' di conquistare trofei!
+										Prova a prenderli tutti!</p>
+									</h4>
+								</div>
+							</#if>
+						</div>
+			</div>
+		</div>
+
+		<!-- FINE COMUNE -->
+		<!-- LISTA GIOCHI -->
+		<div class="container-fluid">
+			<div class="container-fluid mt-4 ">
+				<div> <!-- Separatore -->
+					<hr class="bg-warning">
+					<div class="alert bg-dark" role="alert">
+							<h1 class="text-center text-white font-weight-bold">Ultimi 5 giochi inseriti nella piattaforma!</h1>					
+					</div>
+					<hr class="bg-warning">
+				</div> <!-- Fine Separatore -->
+			
+				<div class="list-group"><!-- Lista Di Giochi -->
+					
+						<#if giochi ??>							
+							<!--  tre giochi per riga, quindi bisogna contare per poterli posizionare -->
+							<div class="row mt-4">								
+								<#list giochi as Gioco>
+										<div class="col-4">
+											<form method="post" role="form">
+												<span class="card mx-auto box-shadow text-center" style="width: 22rem;">
+													<input type="submit" class="" name="" value="${Gioco.getNome()}"/>
+													<input type="hidden" name="dettagliGioco" value="${Gioco.getId()}"/>
+													<input type="hidden" name="value" value="gioco"/>
+													<img class="card-img-top img-thumbnail" src="${Gioco.getUrlThumb()}" alt="Card image cap">							 
+													<h3 class="w-100 position-absolute screenVot"> VOTO: ${Gioco.getMediaVoto()} </h3>							
+												</span>		
+											</form>
+										</div>					
+								</#list>
+								
+							</div>
+						</#if>
+					
+				</div><!-- Fine Lista Di Giochi -->
+				<#if id != 0 && utente??>
+					<div> <!-- Separatore -->
+						<hr class="bg-warning">
+						<div class="alert bg-dark" role="alert">
+							<h1 class="text-center text-white font-weight-bold"> Usa la nostra funzione di ricerca per cercare tra i nostri giochi!</h1>
+							<div class="row justify-content-md-center">
+									<div class="col-5">
+										<form method="post" role="form">
+						                    <div class="input-group">  
+						                        <span class="input-group-btn">
+						                            <button class="btn btn-dark" type="submit" data-toggle="tooltip" data-placement="bottom" title="Ricerca"></button>
+						                        </span>
+						                        <input type="text" class="form-control" placeholder="Scrivi cosa cercare e premi Invio!" aria-label="Cerca.." name="ricerca">
+						                        <input type="hidden" name="value" value="search">
+						                    </div>
+					                	</form>
+				                	</div>
+				            </div>
+		                </div>				
+					</div> <!-- Fine Separatore -->	
+				<#else>
+					<div> <!-- Separatore -->
+						<hr class="bg-warning">
+						<div class="alert bg-dark" role="alert">
+							<h1 class="text-center text-white font-weight-bold">Registrarti per usare la nostra funzione di ricerca!</h1>
+						</div>						
+					</div> <!-- Fine Separatore -->	
+				</#if>
+			</div>
+		</div>
+		<!-- FINE LISTA -->
+		
+
+	<#include "footer.html">
+
+		
+		
+		

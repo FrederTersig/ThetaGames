@@ -1,0 +1,37 @@
+body{ 
+	background-color: #283891;
+	overflow-x: hidden;
+}
+/*HOME*/
+#logQuad{
+	display: block;
+	width: 320px;
+	height: 340px;
+
+}
+#logQuad > div{
+	width: 260px;
+	height:  100px;
+}
+
+.carousel-item{
+	height: 340px;
+
+}
+
+.screenVot{
+	top: 80%;
+}
+
+/*REGISTRAZIONE*/
+#regContainer{
+    height: 100%;
+
+}
+/*PAGINA GIOCO*/
+#spazioGioco{
+	width: 800px;
+	height: 600px;
+}
+/*BackendGestioneUtenza*/
+

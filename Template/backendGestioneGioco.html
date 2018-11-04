@@ -1,0 +1,64 @@
+<#if id != 0 && utente??>
+	<#if utente.getRuolo() == 2 || utente.getRuolo() == 3>
+	    <#include "headerGest.html">
+	<#else>
+	    <#include "header.html">
+	</#if>
+<#else>
+	<#include "header.html">
+</#if>
+		<!-- In ordine di apparizione: Titolo, Spazio Gioco, Descrizione, Voto, Possibilità di voto, Lista recensioni, Possibilità di recensire (modal per dire che avviene la recensione) -->
+		
+		<div class="container-fluid"><!-- INIZIO Gestione Giochi -->
+			<h2 class="text-white text-center mt-5 mb-5"> Rimuovi Gioco </h2>
+			<h5 class="text-white text-center mt-5 mb-5">
+ 			<p>Tramite la lista seguente, si possono vedere i giochi presenti nel sito e decidere quali si vuole rimuovere. Inoltre si possono aggiungere nuovi giochi cliccando l'apposito bottone</p></h5>
+			<div class="bg-dark pt-5 pb-5">
+				<!--  -->
+				<div id="listaGiochi">
+					<div class="row border text-white border-light w-75 mx-auto my-3">
+						
+						<div class="col-2"><b>Titolo</b></div>
+						<div class="col-2"><b>Creatore</b></div>
+						<div class="col-3"><b>Url nel server</b></div>
+						<div class="col-2"><b>Data Creazione</b></div>
+						<div class="col-2"><b>Cancellazione</b></div>
+						
+					</div>
+					<#if lista??>
+						<#list lista as Gioco>
+							
+								<div class="row border border-light bg-warning w-75 mx-auto my-3">
+									<div class="col-2">
+										${Gioco.getNome()}
+									</div>
+									<div class="col-2">
+										${Gioco.getCreatore()}
+									</div>
+									<div class="col-3">
+										${Gioco.getPath()}
+									</div>
+									<div class="col-2">
+										${Gioco.getData()}
+									</div>
+									<div class="col-3">
+										<form method="post" role="form">
+											<input type="submit" class="btn btn-primary" name="value" value="rimuovi">
+											<input type="hidden" name="cancellazioneGioco" value="${Gioco.getId()}"/>
+										</form>
+									</div>
+								</div>
+						</#list>
+					</#if>
+					
+						    
+				</div>
+						
+
+
+				<a class="btn btn-danger w-25 mt-5 d-block mx-auto" name="value" value="back" href="backendPannello"> <b>Torna al pannello</b> </a>
+			</div>
+
+
+		</div><!-- FINE Gestione Giochi -->
+<#include "footer.html">

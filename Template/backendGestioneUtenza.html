@@ -1,0 +1,94 @@
+<#if id != 0 && utente??>
+	<#if utente.getRuolo() == 2 || utente.getRuolo() == 3>
+	    <#include "headerGest.html">
+	<#else>
+	    <#include "header.html">
+	</#if>
+<#else>
+	<#include "header.html">
+</#if>
+		<!-- INIZIO GESTIONE UTENZA -->
+		<div class="container-fluid d-block mt-5">
+			
+					<h2 class="text-white text-center mt-5 mb-5"> Gestione Utenza </h2>
+					<h5 class="text-white text-center mt-5 mb-5">
+						<p> Tramite la lista seguente, si può decidere di dare i privilegi da moderatore ad un utente normale oppure di revocare i poteri da moderatore ad un moderatore.  </p>
+						
+					</h5>
+					<div class="bg-dark pt-5 pb-5">
+						<!-- Cominciamo a creare la lista per ogni utente  -->
+						<div class="ml-5 mr-5" >
+							<#if utenti ??>
+								<#list utenti as Utente>
+									<div class="row mb-2 mt-2">
+										<!-- Questi due div si ripeteranno tramite QUERY -->
+										
+										<div class="col-4 text-center text-white d-inline bg-secondary">
+										
+											<form method="post" role="form" class="d-inline">
+												<button type="submit" class="rimuoviUt btn mx-1 btn-danger" name="value" value="rimuoviUtente">Rimuovi</button>
+												<input type="hidden" name="utente" value="${Utente.getId()}"/>
+											</form>
+											<p class="d-inline"><b><u>${Utente.getUsername()}</u></b></p>
+											
+										</div>
+										<div class="col-2 text-center text-white d-inline bg-secondary">
+											<p><b><i><u>${Utente.getDataSignup()}</u></i></b></p>
+										</div>
+										<div class="col-3 text-center text-white d-inline bg-secondary">
+											<p><b><u>${Utente.getEmail()}</u></b></p>
+										</div>
+										
+										<div class="col-3 text-center d-inline">
+											<form method="post" role="form"> <!--  Form generale di tutti i bottoni -->
+												<#if Utente.getRuolo() == 2>
+													<!-- SE ruolo gestore è Admin, puoi mettere tasto Admin -->
+													<#if ruolo ==3>
+														<!--  unmod E admin -->
+														<div class="row justify-content-around">
+															
+																<button type="submit" class="btn btn-primary col-5" name="value" value="removeMod" input="prova" altro="merio"><b>Rimuovi Mod</b></button>
+																<input type="hidden" name="utente" value="${Utente.getId()}"/>
+
+																
+																<button type="submit" class="btn btn-primary col-5" name="value" value="addAdmin"><b>Aggiungi Admin</b></button>
+																<input type="hidden" name="utente" value="${Utente.getId()}"/>
+														</div>
+													</#if>
+												<#elseif Utente.getRuolo() == 3>
+													<#if ruolo == 3>
+													<!-- unadmin -->
+														
+															<button type="submit" class="btn btn-primary w-100 mb-5" name="value" value="removeAdmin"><b>Rimuovi Admin</b></button>
+															<input type="hidden" name="utente" value="${Utente.getId()}"/>
+													</#if>
+												<#else>
+													<#if ruolo ==3>
+														<!--  aggiungi mod E aggiungi admin -->
+														<div class="row justify-content-around">
+															
+																<button type="submit" class="btn btn-primary col-5" name="value" value="addAdmin"><b>Aggiungi Admin</b></button>
+																<input type="hidden" name="utente" value="${Utente.getId()}"/>
+																
+																<button type="submit" class="btn btn-primary col-5" name="value" value="addMod"><b>Aggiungi Mod</b></button>
+																<input type="hidden" name="utente" value="${Utente.getId()}"/>
+															
+														</div>
+													</#if>
+												</#if>
+											</form>
+										</div>
+									</div>
+								
+								</#list>
+							<#else>
+								<h4> Nessun Utente trovato! </h4>
+							</#if>
+						</div>
+
+						<a class="btn btn-danger w-25 mt-5 d-block mx-auto" name="value" value="back" href="backendPannello"> <b>Torna al pannello</b> </a>
+					</div>
+					
+		</div>
+		<!-- FINE GESTIONE UTENZA -->
+<#include "footer.html">

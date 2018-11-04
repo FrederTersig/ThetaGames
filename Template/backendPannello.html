@@ -1,0 +1,39 @@
+<#if id != 0 && utente??>
+	<#if utente.getRuolo() == 2 || utente.getRuolo() == 3>
+	    <#include "headerGest.html">
+	<#else>
+	    <#include "header.html">
+	</#if>
+<#else>
+	<#include "header.html">
+</#if>
+		<!-- INIZIO PANNELLO -->
+		<div class="container-fluid d-block mt-3">
+			
+					<h2 class="text-white text-center mt-3 mb-3"> Pannello Backend </h2>
+					<h5 class="text-white text-center mt-1 mb-3">
+						<p> Benvenuto nel pannello di gestione! </p>
+						
+					</h5>
+					<div class="bg-dark pt-3 pb-4 w-50 mx-auto">
+						<!-- Inizio Funzioni Moderatore e Admin -->
+						<!-- *** Gestione Utenza permette la modifica dell'utente(SOLO Admin) *** -->
+						
+						<a href="backendGestioneRecensioni" class="btn btn-danger mt-3 btn-lg btn-block w-50 mx-auto"><b>Gestione Recensioni</b></a>
+						<!-- Inizio Funzioni Specifiche dell'Admin -->
+							<#if ruolo==3>
+							
+								<a href="backendGestioneUtenza" type="button" class="btn btn-danger mt-3 btn-lg btn-block w-50 mx-auto"><b>Gestione Utenza</b></a>
+								<a href="backendGestioneTrofeo" type="button" class="btn btn-danger mt-3 btn-lg btn-block w-50 mx-auto"><b>Gestione Trofei</b></a>
+								<a href="backendAggiungiGioco" type="button" class="btn btn-danger mt-3 btn-lg btn-block w-50 mx-auto"><b>Aggiungi Gioco</b></a>
+								<a href="backendGestioneGioco" type="button" class="btn btn-danger mt-3 btn-lg btn-block w-50 mx-auto"><b>Rimuovi Gioco</b></a>
+							</#if>
+						<!-- Fine Funzioni Specifiche dell'Admin -->
+						<a class="btn btn-danger mt-3  btn-lg btn-block w-50 mx-auto" href="home"><b>Torna alla Home</b></a>
+						<!-- Fine Funzioni comuni Moderatore e Admin -->
+					</div>
+				
+		</div>
+		<!-- FINE PANNELLO -->
+<#include "footer.html">
+	

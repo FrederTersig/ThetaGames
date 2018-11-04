@@ -1,0 +1,73 @@
+<#if id != 0 && utente??>
+	<#if utente.getRuolo() == 2 || utente.getRuolo() == 3>
+	    <#include "headerGest.html">
+	<#else>
+	    <#include "header.html">
+	</#if>
+<#else>
+	<#include "header.html">
+</#if>
+		<!-- INIZIO GESTIONE RECENSIONI -->
+		<div class="container-fluid d-block mt-5">
+			
+					<h2 class="text-white text-center mt-5 mb-5"> Gestione Recensioni </h2>
+					<h5 class="text-white text-center mt-5 mb-5">
+						<p> Di seguito vengono mostrati tutte le recensioni in attesa di convalida.   </p>
+						
+					</h5>
+					<div class="bg-dark pt-5 pb-5">
+						<!--  -->
+						<div id="ScrollGestioneRecensioni" >
+							<!-- Un div che conterrà tutto, recensione, data, persona, gioco recensito, voto dato -->
+							<#if totRecensioni != 0>
+								<h4 class="text-center text-light"><u> ${totRecensioni} da convalidare </u></h4>
+								<div class="row">
+									<div class="col-10 offset-1">
+										<#if recensioni ??>
+											<form method="post" role="form">
+												<#list recensioni as Recensione>	
+													<div><!--   lista recensioni  -->
+														<div class="w-200 my-2 bg-primary">
+															 <div class="row py-2 px-2">
+															 	<div class="col-3"><u><b>${Recensione.getNomeUtente()}</b></u></div>
+															 	<div class="col-3"><u><b>${Recensione.getTitoloGioco()}</b></u></div>
+															 	<div class="col-3"><b>${Recensione.getData()}</b></div>
+															 	<div class="col-3 form-check">
+															 		<div class="row">
+															 			<div class="col-6">
+															 				<input type="checkbox" class="form-check-input" id="defaultCheck1" name="validaRecensione" value=${Recensione.getId()}>
+															 				<label class="form-check-label" for="defaultCheck1"><b>Convalida</b></label>	
+															 			</div>
+															 			<div class="col-6">
+															 				<input type="checkbox" class="form-check-input" id="defaultCheck1" name="rifiutaRecensione" value=${Recensione.getId()}>	
+															 				<label class="form-check-label" for="defaultCheck1"><b>Rifiuta</b></label>	
+															 			</div>
+															 		</div>				 			
+															 	</div>
+															 </div>
+															 <div class="py-2 px-2 bg-light">
+															 	${Recensione.getCommento()}
+															 </div>
+														</div>
+													</div><!-- fine lista recensioni -->
+												</#list>
+												<button type="submit" class="btn btn-danger w-50 mt-5 d-block mx-auto" name="value" value="convalida"><b>CONVALIDA/RIFIUTA recensioni selezionate</b></button>
+								    		</form>
+										</#if>
+									</div>
+								</div>
+							<#else>
+								<h4 class="text-center"><b>Non ci sono attualmente altre registrazioni da convalidare!</b></h4>
+							</#if>
+							
+						   	 
+						</div>
+						
+
+
+						<a class="btn btn-danger w-25 mt-5 d-block mx-auto" name="value" value="back" href="backendPannello"> <b>Torna al pannello</b> </a>
+					</div>
+					
+		</div>
+		<!-- FINE GESTIONE RECENSIONI -->
+<#include "footer.html">

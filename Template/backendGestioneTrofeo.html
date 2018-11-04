@@ -1,0 +1,67 @@
+<#if id != 0 && utente??>
+	<#if utente.getRuolo() == 2 || utente.getRuolo() == 3>
+	    <#include "headerGest.html">
+	<#else>
+	    <#include "header.html">
+	</#if>
+<#else>
+	<#include "header.html">
+</#if>
+		
+		<div class="container-fluid"><!-- INIZIO Gestione Trofei -->
+			<h2 class="text-white text-center mt-5 mb-5"> Gestione dei Trofei </h2>
+			<h5 class="text-white text-center mt-5 mb-5">
+			<p>Questa pagina mostra la lista di trofei legati ai giochi presenti nella piattaforma. </p>
+			<p>Qui si ha anche la possibilità di creare i trofei legati ai giochi e cioè trofei che </p>
+			<p>possono essere presi soltanto portando un obiettivo a termine in un determinato gioco.</p>
+			<p>Si raccomanda di <u>NON</u> dare lo stesso titolo a due trofei appartenenti allo stesso gioco.</p></h5>
+			
+				<!--  -->
+				<div id="mostraTrophy" class="mb-5 bg-dark px-2" >
+						<#if listaTrofei ??>
+							<#list listaTrofei as Trofeo>
+								<div class="row text-center bg-light my-2">
+									<div class="col-3"><b>${Trofeo.getNomeTrofeo()}</b></div>
+									<div class="col-3"><b>${Trofeo.getDescrizione()}</b></div>
+									<div class="col-3"><b>${Trofeo.getGiocoAssociato()}</b></div>
+									<div class="col-3">
+										<form method="post" role="form">
+											<input type="submit" class="btn btn-primary" name="value" value="rimuovi">
+											<input type="hidden" name="cancellaTrofeo" value="${Trofeo.getId()}"/>										
+										</form>
+									</div>
+								</div>
+							</#list>
+						</#if>
+						
+				</div>
+				<div id="createTrophy" class="bg-dark px-2">	
+						
+						<div class="text-center">
+							<form method="post" role="form">
+								
+								<label for="firstName"><b class="text-white">Titolo Trofeo</b></label>
+		               			<input class="form-control w-100" id="titolo" name="titolo" placeholder="Titolo" required="" type="text">
+		               			<label for="descrizione"><b class="text-white">Descrizione</b></label>
+								<textarea class="form-control my-2 w-100 areatesto" name="descrizione" id="descrizione" placeholder="Scrivi una descrizione"></textarea>
+								<!--  LISTA GIOCHI DA MOSTRARE -->
+								<select id="selezGioco" name="selezGioco">
+									<#if listaGiochi ??>
+										<#list listaGiochi as Gioco>
+											<option value=${Gioco.getId()}> ${Gioco.getNome()}</option>
+										</#list>
+									</#if>									
+								</select>
+								<button id="send" type="submit" class="btn btn-primary my-2" > Invia Trofeo</button>
+								<input type="hidden" name="value" value="inviaTrofeo">							
+							</form>
+						</div>
+				
+				</div>
+					
+				<a class="btn btn-danger w-25 mt-5 d-block mx-auto" name="value" value="back" href="backendPannello"> <b>Torna al pannello</b> </a>
+			</div>
+
+
+		</div><!-- FINE Gestione Giochi -->
+<#include "footer.html">

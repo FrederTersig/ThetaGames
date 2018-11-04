@@ -1,0 +1,135 @@
+<#if id != 0 && utente??>
+	<#if utente.getRuolo() == 2 || utente.getRuolo() == 3>
+	    <#include "headerGest.html">
+	<#else>
+	    <#include "header.html">
+	</#if>
+<#else>
+	<#include "header.html">
+</#if>	
+		<div class="container-fluid"><!-- INIZIO PAGINA GIOCO -->
+			<div class="container mx-auto ">
+				<#if gioco ??>
+					<h1 class="my-3 text-center"><b>${gioco.getNome()}</b></h1>
+					
+					<div id="spazioGioco" class="mx-auto border border-white bg-dark" >
+						<!-- Qui va l'include per inserire il file HTML del gioco -->
+					</div>
+					<div id="descrGioco" class="my-3 text-light">
+						<p class="text-center"> Sviluppato da: <b>${gioco.getCreatore()}</b></p>
+						<p class="text-center"> ${gioco.getDescrizione()}</p>
+						<p class="text-center"> Data Rilascio: ${gioco.getData()} </p>
+					</div>
+					<div id="TrofeiGioco">
+						<#if trofei??>
+							<#list trofei as trofeo>
+								<div id="riquadroTrofeo" class="w-100 border border-dark bg-warning">
+									<p class="text-left mx-2 my-2"><b>${trofeo.getNomeTrofeo()}</b></p>
+									<p class="text-left mx-2 my-2"><i>${trofeo.getDescrizione()}</i></p>
+								</div>
+							</#list>
+						</#if>
+					</div>
+					<div id="votoGioco">
+						<#if mediaVoti != 0>
+							<h5 class="text-center my-2 text-light"> Media dei voti: ${mediaVoti} </h5>
+						<#else>
+							<h5 class="text-center my-2 mb-4 text-light"> Nessun voto per questo gioco! </h5>
+						</#if>
+						<h5 class="text-center my-2 text-light"> Inserisci un voto per questo gioco: </h5>
+						<form method="post" role="form">
+							<div class="d-flex justify-content-center mb-4">							
+								<button type="button" class="voto btn btn-primary mx-1" value="1">1</button>
+								<button type="button" class="voto btn btn-primary mx-1" value="2">2</button>
+								<button type="button" class="voto btn btn-primary mx-1" value="3">3</button>
+								<button type="button" class="voto btn btn-primary mx-1" value="4">4</button>
+								<button type="button" class="voto btn btn-primary mx-1" value="5">5</button>
+							</div>
+						</form>
+						<!-- input per inviare il voto -->
+					</div>
+					<div id="reviewGioco">
+						<!--  <h2 class="text-center"> Recensioni </h2>-->
+						
+						<#if totRecensioni != 0>
+							<h4 class="text-center"> ${totRecensioni} recensioni per questo gioco </h4>
+							<#if recensioni ??>
+								<#list recensioni as Recensione>
+									
+										<div><!--   lista recensioni  -->
+											 <div class="w-200 bg-primary border border-dark"> 
+											 	<div class="row py-2 px-2">
+											 		<div class="col-6"><u><b>${Recensione.getNomeUtente()}</b></u></div>
+											 		<div class="col-6"><u>${Recensione.getData()}</u></div>
+											 	</div>
+											 	<div class="py-2 px-2 bg-light">
+											 		${Recensione.getCommento()}
+											 	</div>
+											 </div>
+										</div>
+									
+								</#list>
+							</#if>
+						<#else>
+							<h4 class="text-center"> Non ci sono ancora Recensioni! Scrivine una! </h4>
+						</#if>
+						
+						<div class="text-center">
+							<form method="post" role="form">
+								<div class="form-check">
+									<label class="form-check-label text-light">		
+										<b>* La tua recensione dovra' prima essere convalidata prima di poterla vedere nella lista delle recensioni!</b>
+									</label>
+								</div>
+								<textarea class="form-control my-2 mx-2 areatesto" name="inviaRecensione" id="input" placeholder="Scrivi qui la tua risposta"></textarea>
+								<button id="send" type="button" class="btn btn-primary my-2"> Invia Recensione</button>
+								<input type="hidden" name="value" value="inviaRecensione">							
+							</form>
+						</div>
+				
+					</div>
+				</#if>
+			</div>
+		</div><!-- FINE PAGINA GIOCO -->
+		<!--  Script Per Loading del gioco e per ricavo esperienza -->
+		<script> 
+					$(document).ready(function(){
+				        $("#spazioGioco").load("${gioco.getUrlGioco()}"); 
+				        document.getElementById("send").onclick = function(){
+				        	review = document.getElementById("input").value;
+					    	$.post("detGioco",{value : 'inviaRecensione', name: 'value', input: review}, function(response,status){} );				    	
+				        };
+				        $(".voto").click(function(){
+				        	var fired_button = $(this).val();
+				        	$.post("detGioco",{value: 'inviaVoto', name:"value", input: fired_button}, function(response,status){} );
+				        });
+				      
+					});
+					
+					
+					// Se si prende una badge la si assegna direttamente al profilo e niente altro
+					var checkInfo = function(tipo){
+						alert("successo qualcosa!");
+						alert(tipo)
+						this.newExp = function(tipo){
+							alert("Hai guadagnato dei punti esperienza! Difficoltà "+tipo);
+							//in questa funzione inserisco le varie chiamate POST e i vari tranci di PX che è possibile
+							//avere
+							$.post("detGioco",
+							    {value : 'newExp',name: 'value', input: tipo}, function(response, status) {}
+							);
+						};
+
+						this.trofeoAcquisizione = function(titoloTrofeo){
+							alert("L'account ha guadagnato un nuovo trofeo!!");
+							alert(titoloTrofeo);
+							$.post("detGioco",
+								{value:'addTrofeo', name:'value', input:titoloTrofeo}, function(response,status){}	
+							);
+						};
+					};
+					
+					
+		</script>
+		<!--  Fine Script -->
+    <#include "footer.html">

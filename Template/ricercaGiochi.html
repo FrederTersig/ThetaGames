@@ -1,0 +1,60 @@
+<#if id != 0 && utente??>
+	<#if utente.getRuolo() == 2 || utente.getRuolo() == 3>
+	    <#include "headerGest.html">
+	<#else>
+	    <#include "header.html">
+	</#if>
+<#else>
+	<#include "header.html">
+</#if>
+<div class="container-fluid">
+	<div class="container-fluid">
+		<div> <!-- Separatore -->
+			<hr class="bg-warning">
+			<div class="alert bg-dark" role="alert">
+				<#if ricerca ??>
+					<#if ricerca != "">
+						<#if totElementi == 0>
+							<h1 class="text-center text-white font-weight-bold">-> Nessun Elemento per "${ricerca}"</h1>
+						<#elseif totElementi == 1>
+							<h1 class="text-center text-white font-weight-bold">-> ${totElementi} Risultato per "${ricerca}"</h1>
+						<#else>
+							<h1 class="text-center text-white font-weight-bold">-> ${totElementi} Risultati per "${ricerca}"</h1>
+						</#if>
+					<#else>
+						<h1 class="text-center text-white font-weight-bold"> Numero di giochi presenti nel sito: ${totElementi} </h1>
+					</#if>
+				</#if>
+			</div>						
+		</div> <!-- Fine Separatore -->	
+		
+		<div class="list-group"><!-- Lista Di Giochi -->
+					
+						<#if giochi ??>							
+							<!--  tre giochi per riga, quindi bisogna contare per poterli posizionare -->
+							<div class="row mt-4">								
+							<#list giochi as Gioco>
+									<div class="col-4">
+										<form method="post" role="form">
+										<span class="card mx-auto box-shadow text-center" style="width: 22rem;">
+											<input type="submit" class="" name="" value="${Gioco.getNome()}"/>
+											<input type="hidden" name="dettagliGioco" value="${Gioco.getId()}"/>
+											<input type="hidden" name="value" value="gioco"/>
+											<img class="card-img-top img-thumbnail" src="${Gioco.getUrlThumb()}" alt="Card image cap">							 
+											<h3 class="w-100 position-absolute screenVot"> VOTO: ${Gioco.getMediaVoto()} </h3>	
+											<!--  <h5 class="card-title mx-auto my-auto"></h5> -->								
+										</span>		
+										</form>
+									</div>					
+							</#list>
+								
+							</div>
+						
+						</#if>
+					
+		</div><!-- Fine Lista Di Giochi -->
+		
+	</div>
+</div>
+
+<#include "footer.html">
